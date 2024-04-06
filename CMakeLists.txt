@@ -4,14 +4,12 @@ project(Data_Structures)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -O0 -g3")
 
 include_directories(include)
 
-set(SOURCE_FILES
-  src/main.cpp
-)
+set(SOURCE_FILES src/main.cpp src/idll.cpp)
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
