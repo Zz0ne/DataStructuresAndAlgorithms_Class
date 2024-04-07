@@ -17,7 +17,9 @@
 struct INode {
   // atributos obrigatórios
   int item; // informação em cada nó
-            // outros atributos e métodos (protótipos) livres
+
+  INode *next;
+  INode *prev;
 };
 
 // definir lista duplamente ligada
@@ -25,7 +27,27 @@ class IDll {
 private:
   // atributos obrigatórios
   int n; // dimensão atual da lista
-         // outros atributos e métodos (protótipos) livres
+  INode *head;
+
+  void checkBounds(int pos, const char *method);
+
+public:
+  IDll();
+
+  int getLength();
+  int getItem(int pos);
+  int getMax();
+
+  void insert(int value, int pos);
+  void insertBegin(int value);
+  void insertEnd(int value);
+
+  void del(int pos);
+  void delBegin();
+  void delEnd();
+
+  int find(int value);
+  void clear();
 };
 
 // EOF
