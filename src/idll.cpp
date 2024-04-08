@@ -13,17 +13,16 @@
 //   Em idll.cpp a implementação dos métodos das classes da estrutura de dados
 
 #include "idll.h"
-#include <climits>
 #include <cstddef>
 #include <cstdlib>
 #include <iostream>
 
 //  Private
-void IDll::checkBounds(int pos, const char *method) {
+bool IDll::checkBounds(int pos) {
   if (pos >= n || pos < 0) {
-    std::cout << method << ": Out of scope" << std::endl;
-    std::exit(EXIT_FAILURE);
+    return false;
   }
+  return true;
 }
 
 // Public
@@ -34,8 +33,10 @@ IDll::IDll() {
 
 int IDll::getLength() { return this->n; }
 
-int IDll::getItem(int pos) {
-  checkBounds(pos, __FUNCTION__);
+bool IDll::getItem(int pos, int *item) {
+  if (checkBounds(pos)) {
+    return false;
+  }
 
   INode *curr = this->head;
 
@@ -43,25 +44,26 @@ int IDll::getItem(int pos) {
     curr = curr->next;
   }
 
-  return curr->item;
+  *item = curr->item;
+  return true;
 }
 
-int IDll::getMax() {
+bool IDll::getMax(int *max) {
+
   if (this->n == 0) {
-    std::cout << "Empty list" << std::endl;
-    return INT_MIN;
+    return false;
   }
 
   INode *curr = this->head;
-  int max = curr->item;
+  *max = curr->item;
 
   while (curr != NULL) {
-    if (curr->item > max)
-      max = curr->item;
+    if (curr->item > *max)
+      *max = curr->item;
     curr = curr->next;
   }
 
-  return max;
+  return true;
 }
 
 void IDll::insertBegin(int value) {
@@ -102,15 +104,19 @@ void IDll::insertEnd(int value) {
   this->n++;
 }
 
-void IDll::del(int pos) {
-  this->checkBounds(pos, __FUNCTION__);
+bool IDll::del(int pos) {
+  if (this->checkBounds(pos)) {
+    return false;
+  }
 
   if (pos == 0) {
     this->delBegin();
-    return;
-  } else if (pos == this->n) {
+    return true;
+  }
+
+  if (pos == this->n) {
     this->delEnd();
-    return;
+    return true;
   }
 
   INode *toDelete = this->head;
@@ -128,12 +134,13 @@ void IDll::del(int pos) {
   toDelete = NULL;
 
   this->n--;
+
+  return true;
 }
 
-void IDll::delBegin() {
+bool IDll::delBegin() {
   if (this->n == 0) {
-    std::cout << "List is empty" << std::endl;
-    return;
+    return false;
   }
 
   INode *toDelete = this->head;
@@ -143,12 +150,24 @@ void IDll::delBegin() {
   toDelete = NULL;
 
   this->n--;
+
+  if (n) {
+    this->head->prev = NULL;
+  }
+
+  return true;
 }
 
-void IDll::delEnd() {
+bool IDll::delEnd() {
   if (this->n == 0) {
-    std::cout << "List is empty" << std::endl;
-    return;
+    return false;
+  }
+
+  // Se a lista tiver apenas 1 elemento
+  if (this->n == 1) {
+    delete this->head;
+    this->head = NULL;
+    return true;
   }
 
   INode *toDelete = this->head;
@@ -159,11 +178,10 @@ void IDll::delEnd() {
 
   INode *newLast = toDelete->prev;
   newLast->next = NULL;
-
   delete toDelete;
-  toDelete = NULL;
 
   this->n--;
+  return true;
 }
 
 void IDll::clear() {
@@ -190,5 +208,26 @@ int IDll::find(int value) {
   }
 
   return -1;
+}
+
+void IDll::printList() {
+  INode *curr = this->head;
+
+  std::cout << "Lista:";
+
+  while (curr != NULL) {
+    std::cout << " " << curr->item;
+  }
+
+  std::cout << std::endl;
+}
+
+bool IDll::printItem(int pos) {
+  int item;
+  if (this->getItem(pos, &item)) {
+    std::cout << "Lista(" << pos << "): " << item << std::endl;
+    return true;
+  }
+  return false;
 }
 // EOF

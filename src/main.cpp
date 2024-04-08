@@ -46,47 +46,62 @@ int main() {
     if (isComment(line))
       continue;
 
+    IDll list;
     stringstream cmdStream(line);
     cmdStream >> cmd;
 
     if (findCmd(cmd, "insert_0")) {
-
       while (cmdStream >> arg) {
-        cout << arg << endl;
+        list.insertBegin(arg);
       }
 
     } else if (findCmd(cmd, "insert_end")) {
-
       while (cmdStream >> arg) {
-        cout << arg << endl;
+        list.insertEnd(arg);
       }
 
     } else if (findCmd(cmd, "print_0")) {
-      cout << "print_0" << endl;
-    } else if (findCmd(cmd, "print_end")) {
-      cout << "print_end" << endl;
-    } else if (findCmd(cmd, "print")) {
-      cout << "print" << endl;
-    } else if (findCmd(cmd, "delete_0")) {
-      cout << "delete_0" << endl;
-    } else if (findCmd(cmd, "delete_end")) {
-      cout << "delete_end" << endl;
-    } else if (findCmd(cmd, "dim")) {
-      cout << "dim" << endl;
-    } else if (findCmd(cmd, "clear")) {
-      cout << "clear" << endl;
-    } else if (findCmd(cmd, "find")) {
+      list.printItem(0);
 
-      while (cmdStream >> arg) {
-        cout << arg << endl;
+    } else if (findCmd(cmd, "print_end")) {
+      int pos = list.getLength();
+      list.printItem(pos - 1);
+
+    } else if (findCmd(cmd, "print")) {
+      list.printList();
+
+    } else if (findCmd(cmd, "delete_0")) {
+      list.delBegin();
+
+    } else if (findCmd(cmd, "delete_end")) {
+      list.delEnd();
+
+    } else if (findCmd(cmd, "dim")) {
+      int length = list.getLength();
+      cout << "Lista tem " << length << "items" << endl;
+
+    } else if (findCmd(cmd, "clear")) {
+      list.clear();
+
+    } else if (findCmd(cmd, "find")) {
+      cmdStream >> arg;
+      int pos = list.find(arg);
+      if (pos >= 0) {
+        cout << "Item " << arg << " na posicao " << pos << endl;
+      } else {
+        cout << "Item " << arg << " nao encontrado!" << endl;
       }
 
     } else if (findCmd(cmd, "find_max")) {
-      cout << "find_max" << endl;
+      int maxValue = list.getMax();
+      int pos = list.find(maxValue);
+
+      cout << "Max Item " << maxValue << "na posicao" << pos << endl;
+
     } else if (findCmd(cmd, "delete_pos")) {
 
       while (cmdStream >> arg) {
-        cout << arg << endl;
+        list.del(arg);
       }
 
     } else if (findCmd(cmd, "invert_range")) {

@@ -29,24 +29,27 @@ private:
   int n; // dimensão atual da lista
   INode *head;
 
-  void checkBounds(int pos, const char *method);
+  bool checkBounds(int pos);
 
 public:
   IDll();
 
   int getLength();
-  int getItem(int pos);
-  int getMax();
+  bool getItem(int pos, int *item);
+  bool getMax(int *max);
 
   void insertBegin(int value);
   void insertEnd(int value);
 
-  void del(int pos);
-  void delBegin();
-  void delEnd();
+  bool del(int pos);
+  bool delBegin();
+  bool delEnd();
 
   void clear();
   int find(int value);
+
+  void printList();
+  bool printItem(int item);
 };
 
 // EOF
