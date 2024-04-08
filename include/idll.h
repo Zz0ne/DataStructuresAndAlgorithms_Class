@@ -38,7 +38,6 @@ public:
   int getItem(int pos);
   int getMax();
 
-  void insert(int value, int pos);
   void insertBegin(int value);
   void insertEnd(int value);
 
@@ -46,8 +45,8 @@ public:
   void delBegin();
   void delEnd();
 
-  int find(int value);
   void clear();
+  int find(int value);
 };
 
 // EOF
