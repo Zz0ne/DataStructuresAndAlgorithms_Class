@@ -50,6 +50,7 @@ public:
 
   void printList();
   bool printItem(int item);
+  bool invertRange(int begin, int end);
 };
 
 // EOF
