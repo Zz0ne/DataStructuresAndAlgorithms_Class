@@ -14,43 +14,47 @@
 // Não altere o nome das classes nem dos atributos obrigatórios!
 
 // definir nó
-struct INode {
-  // atributos obrigatórios
-  int item; // informação em cada nó
+struct INode
+{
+    // atributos obrigatórios
+    int item; // informação em cada nó
 
-  INode *next;
-  INode *prev;
+    INode *next;
+    INode *prev;
 };
 
 // definir lista duplamente ligada
-class IDll {
-private:
-  // atributos obrigatórios
-  int n; // dimensão atual da lista
-  INode *head;
+class IDll
+{
+  private:
+    // atributos obrigatórios
+    int n; // dimensão atual da lista
+    INode *head;
 
-  bool checkBounds(int pos);
+    bool checkBounds(int pos);
 
-public:
-  IDll();
+  public:
+    IDll();
+    ~IDll();
 
-  int getLength();
-  bool getItem(int pos, int *item);
-  bool getMax(int *max);
+    int getLength();
+    bool getItem(int pos, int *item);
+    bool getMax(int *max);
 
-  void insertBegin(int value);
-  void insertEnd(int value);
+    void insertBegin(int value);
+    void insertEnd(int value);
 
-  bool del(int pos);
-  bool delBegin();
-  bool delEnd();
+    bool del(int pos);
+    bool delBegin();
+    bool delEnd();
 
-  void clear();
-  int find(int value);
+    void clear();
+    int find(int value);
 
-  void printList();
-  bool printItem(int item);
-  bool invertRange(int begin, int end);
+    void printList();
+    void printBegin();
+    void printEnd();
+    bool invertRange(int begin, int end);
 };
 
 // EOF

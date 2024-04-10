@@ -1,8 +1,5 @@
-insert_0  3
-insert_0    -8
-insert_end      7 9
+# teste 02
+insert_end   -2 -1 0 1 2 3 4 5  6
 print
-
-Output:
-Lista= -8 3 7 9
-    # comantario
+print_0
+print_end

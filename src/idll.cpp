@@ -20,8 +20,9 @@
 //  Private
 bool IDll::checkBounds(int pos)
 {
-    if (pos >= n || pos < 0)
+    if (pos >= this->n || pos < 0)
     {
+        std::cout << pos << std::endl;
         return false;
     }
     return true;
@@ -34,6 +35,11 @@ IDll::IDll()
     this->head = NULL;
 }
 
+IDll::~IDll()
+{
+    this->clear();
+}
+
 int IDll::getLength()
 {
     return this->n;
@@ -41,12 +47,12 @@ int IDll::getLength()
 
 bool IDll::getItem(int pos, int *item)
 {
-    if (checkBounds(pos))
+    if (!checkBounds(pos))
         return false;
 
     INode *curr = this->head;
 
-    for (int i = 0; i <= pos; i++)
+    for (int i = 0; i < pos; i++)
     {
         curr = curr->next;
     }
@@ -82,6 +88,7 @@ void IDll::insertBegin(int value)
     if (this->head == NULL)
     {
         this->head = newData;
+        this->n++;
         return;
     }
 
@@ -103,6 +110,7 @@ void IDll::insertEnd(int value)
     if (this->head == NULL)
     {
         this->head = newData;
+        this->n++;
         return;
     }
 
@@ -207,10 +215,10 @@ void IDll::clear()
 
     while (toDelete != NULL)
     {
-        toDelete = toDelete->next;
-        delete toDelete->prev;
+        INode *prev = toDelete;
+        toDelete    = toDelete->next;
+        delete prev;
     }
-
     this->head = NULL;
     this->n    = 0;
 }
@@ -235,29 +243,78 @@ void IDll::printList()
 {
     INode *curr = this->head;
 
-    std::cout << "Lista:";
+    std::cout << "Lista=";
 
     while (curr != NULL)
+    {
         std::cout << " " << curr->item;
+        curr = curr->next;
+    }
 
     std::cout << std::endl;
 }
 
-bool IDll::printItem(int pos)
+void IDll::printEnd()
 {
     int item;
-    if (this->getItem(pos, &item))
-    {
-        std::cout << "Lista(" << pos << "): " << item << std::endl;
-        return true;
-    }
-    return false;
+    this->getItem(this->n - 1, &item);
+    std::cout << "Lista(end)= " << item << std::endl;
 }
 
-bool IDll::invertRange(int begin, int end)
+void IDll::printBegin()
 {
-    if (this->checkBounds(begin) || this->checkBounds(end))
+    std::cout << "Lista(0)= " << this->head->item << std::endl;
+}
+
+bool IDll::invertRange(int start, int end)
+{
+    if (this->checkBounds(start) || this->checkBounds(end))
         return false;
+
+    // Descobrir as posições dos nós
+    INode *rangeStart = NULL, *rangeEnd = NULL, *curr = this->head;
+    for (int i = 0; i <= end; ++i)
+    {
+        if (i == start)
+            rangeStart = curr;
+        if (i == end)
+            rangeEnd = curr;
+        if (i < end)
+            curr = curr->next;
+    }
+
+    IDll *tmpList = new IDll();
+    curr          = rangeStart;
+
+    // Copiar os items para lista temporária
+    for (int i = start; i < end; i++)
+    {
+        tmpList->insertBegin(curr->item);
+        curr = curr->next;
+    }
+
+    INode *lastNodeTmp = tmpList->head;
+
+    for (int i = start; i < end; i++)
+        lastNodeTmp = lastNodeTmp->next;
+
+    // Verificar se rangeStart não é o primeiro nó
+    if (rangeStart->prev)
+        curr = rangeStart;
+    else
+        curr = rangeStart->next;
+
+    while (curr != rangeEnd)
+    {
+        INode *prev = curr;
+        curr        = curr->next;
+        delete prev;
+    }
+
+    rangeStart->prev->next = tmpList->head;
+    tmpList->head->prev    = rangeStart->prev;
+    lastNodeTmp            = rangeEnd->prev;
+    lastNodeTmp->next      = rangeEnd;
 
     return true;
 }

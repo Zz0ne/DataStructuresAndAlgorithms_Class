@@ -27,7 +27,12 @@ using namespace std;
 void outOfBoundsWarn(bool validPos, string cmd)
 {
     if (!validPos)
-        cout << "Comando" << cmd << ": Posicao invalida!\n";
+        cout << "Comando " << cmd << ": Posicao invalida!\n";
+}
+
+void emptyListWarn(string cmd)
+{
+    cout << "Comando " << cmd << ": Lista vazia!\n";
 }
 
 bool isComment(string str)
@@ -46,12 +51,14 @@ bool findCmd(string inputCmd, const char *cmd)
 
 int main()
 {
+    IDll list;
     string line;
     string cmd;
     int arg;
 
     while (getline(cin, line))
     {
+        // cout << line << endl;
         // Ignora linhas vazias
         cin >> ws;
 
@@ -59,7 +66,6 @@ int main()
         if (isComment(line))
             continue;
 
-        IDll list;
         stringstream cmdStream(line);
         cmdStream >> cmd;
         bool validPos = true;
@@ -80,20 +86,31 @@ int main()
         }
         else if (findCmd(cmd, "print_0"))
         {
-            validPos = list.printItem(0);
+            if (list.getLength() == 0)
+                emptyListWarn(cmd);
+            else
+                list.printBegin();
         }
         else if (findCmd(cmd, "print_end"))
         {
-            int pos  = list.getLength();
-            validPos = list.printItem(pos - 1);
+            if (list.getLength() == 0)
+                emptyListWarn(cmd);
+            else
+                list.printEnd();
         }
         else if (findCmd(cmd, "print"))
         {
-            list.printList();
+            if (list.getLength() == 0)
+                emptyListWarn(cmd);
+            else
+                list.printList();
         }
         else if (findCmd(cmd, "delete_0"))
         {
-            list.delBegin();
+            if (list.getLength() == 0)
+                emptyListWarn(cmd);
+            else
+                list.delBegin();
         }
         else if (findCmd(cmd, "delete_end"))
         {
@@ -102,11 +119,14 @@ int main()
         else if (findCmd(cmd, "dim"))
         {
             int length = list.getLength();
-            cout << "Lista tem " << length << "items" << endl;
+            cout << "Lista tem " << length << " itens" << endl;
         }
         else if (findCmd(cmd, "clear"))
         {
-            list.clear();
+            if (list.getLength() == 0)
+                emptyListWarn(cmd);
+            else
+                list.clear();
         }
         else if (findCmd(cmd, "find"))
         {
@@ -151,9 +171,9 @@ int main()
         {
             cout << "Invalid command: " << line << endl;
         }
+
         outOfBoundsWarn(validPos, cmd);
     }
-
     return 0;
 }
 
