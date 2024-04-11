@@ -1,5 +1,13 @@
-# teste 02
-insert_end   -2 -1 0 1 2 3 4 5  6
+# teste 05
+
+insert_end   0 2 4 6 8 10 12 14 16 18 20
 print
-print_0
-print_end
+find         8
+find         0
+find         20
+#
+delete_end
+insert_end   18
+insert_end   18
+print
+find_max

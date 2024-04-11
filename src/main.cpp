@@ -42,7 +42,7 @@ bool isComment(string str)
 
 bool findCmd(string inputCmd, const char *cmd)
 {
-    if (inputCmd.find(cmd) == string::npos)
+    if (inputCmd.compare(cmd) != 0)
     {
         return false;
     }
@@ -144,14 +144,14 @@ int main()
         else if (findCmd(cmd, "find_max"))
         {
             int maxValue;
-            if (list.getMax(&maxValue))
+            if (!list.getMax(&maxValue))
             {
                 cout << "Lista Vazia" << endl;
                 continue;
             }
 
             int pos = list.find(maxValue);
-            cout << "Max Item " << maxValue << "na posicao" << pos << endl;
+            cout << "Max Item " << maxValue << " na posicao " << pos << endl;
         }
         else if (findCmd(cmd, "delete_pos"))
         {

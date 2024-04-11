@@ -16,6 +16,7 @@
 #include <cstddef>
 #include <cstdlib>
 #include <iostream>
+#include <ostream>
 
 //  Private
 bool IDll::checkBounds(int pos)
