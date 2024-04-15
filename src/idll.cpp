@@ -18,15 +18,14 @@
 #include <iostream>
 #include <ostream>
 
+#define DEBUG_PRINT(x) std::cout << "reached " << x << std::endl
+
 //  Private
-bool IDll::checkBounds(int pos)
+bool IDll::outOfBounds(int pos)
 {
     if (pos >= this->n || pos < 0)
-    {
-        std::cout << pos << std::endl;
-        return false;
-    }
-    return true;
+        return true;
+    return false;
 }
 
 // Public
@@ -48,7 +47,7 @@ int IDll::getLength()
 
 bool IDll::getItem(int pos, int *item)
 {
-    if (!checkBounds(pos))
+    if (this->outOfBounds(pos))
         return false;
 
     INode *curr = this->head;
@@ -128,7 +127,7 @@ void IDll::insertEnd(int value)
 
 bool IDll::del(int pos)
 {
-    if (this->checkBounds(pos))
+    if (this->outOfBounds(pos))
         return false;
 
     if (pos == 0)
@@ -137,7 +136,7 @@ bool IDll::del(int pos)
         return true;
     }
 
-    if (pos == this->n)
+    if (pos == this->n - 1)
     {
         this->delEnd();
         return true;
@@ -212,6 +211,9 @@ bool IDll::delEnd()
 
 void IDll::clear()
 {
+    if (this->n == 0)
+        return;
+
     INode *toDelete = this->head;
 
     while (toDelete != NULL)
@@ -269,7 +271,7 @@ void IDll::printBegin()
 
 bool IDll::invertRange(int start, int end)
 {
-    if (this->checkBounds(start) || this->checkBounds(end))
+    if (this->outOfBounds(start) || this->outOfBounds(end))
         return false;
 
     // Descobrir as posições dos nós
@@ -288,7 +290,7 @@ bool IDll::invertRange(int start, int end)
     curr          = rangeStart;
 
     // Copiar os items para lista temporária
-    for (int i = start; i < end; i++)
+    for (int i = start; i <= end; i++)
     {
         tmpList->insertBegin(curr->item);
         curr = curr->next;
@@ -299,11 +301,29 @@ bool IDll::invertRange(int start, int end)
     for (int i = start; i < end; i++)
         lastNodeTmp = lastNodeTmp->next;
 
-    // Verificar se rangeStart não é o primeiro nó
-    if (rangeStart->prev)
-        curr = rangeStart;
+    if (rangeStart->prev == NULL)
+    {
+        this->head       = tmpList->head;
+        this->head->prev = NULL;
+    }
     else
-        curr = rangeStart->next;
+    {
+        rangeStart->prev->next = tmpList->head;
+        tmpList->head->prev    = rangeStart->prev;
+    }
+
+    if (rangeEnd->next != NULL)
+    {
+        lastNodeTmp->next    = rangeEnd->next;
+        rangeEnd->next->prev = lastNodeTmp;
+    }
+    else
+    {
+        lastNodeTmp->next = NULL;
+    }
+
+    // Limpar nós não invertidos
+    curr = rangeStart;
 
     while (curr != rangeEnd)
     {
@@ -311,11 +331,8 @@ bool IDll::invertRange(int start, int end)
         curr        = curr->next;
         delete prev;
     }
-
-    rangeStart->prev->next = tmpList->head;
-    tmpList->head->prev    = rangeStart->prev;
-    lastNodeTmp            = rangeEnd->prev;
-    lastNodeTmp->next      = rangeEnd;
+    tmpList->head = nullptr;
+    delete tmpList;
 
     return true;
 }

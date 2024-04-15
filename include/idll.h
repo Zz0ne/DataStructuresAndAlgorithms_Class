@@ -31,7 +31,7 @@ class IDll
     int n; // dimensão atual da lista
     INode *head;
 
-    bool checkBounds(int pos);
+    bool outOfBounds(int pos);
 
   public:
     IDll();

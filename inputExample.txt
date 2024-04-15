@@ -1,13 +1,33 @@
-# teste 05
-
-insert_end   0 2 4 6 8 10 12 14 16 18 20
+# teste 09
+clear
+insert_end   -1 -5 12 3 45 -23 45 30 30
+insert_end   -1 -5 12 3 45 -23 45 30 30
+insert_0      3 6 4 6 8 4 2 9 6 4 6 3
+insert_0      3 6 4 6 8 4 2 9 6 4 6 3
+# mais inserts
+insert_end   -1 -5 12 3 45 -23 45 30 30
+insert_end   -1 -5 12 3 45 -23 45 30 30
+insert_0      3 6 4 6 8 4 2 9 6 4 6 3
+insert_0      3 6 4 6 8 4 2 9 6 4 6 3
+dim
+print_0
+print_end
 print
-find         8
-find         0
-find         20
-#
+delete_pos 2
+delete_pos 5
+delete_pos 15
+delete_pos 23
 delete_end
-insert_end   18
-insert_end   18
+delete_end
+delete_end
+delete_end
+delete_end
+delete_end
+delete_end
+delete_end
+delete_end
+delete_end
+dim
 print
-find_max
+invert_range   0 30
+print

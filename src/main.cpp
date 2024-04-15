@@ -58,7 +58,7 @@ int main()
 
     while (getline(cin, line))
     {
-        // cout << line << endl;
+        /* cout << line << endl; */
         // Ignora linhas vazias
         cin >> ws;
 
