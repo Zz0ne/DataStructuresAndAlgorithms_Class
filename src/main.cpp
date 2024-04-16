@@ -24,10 +24,9 @@
 
 using namespace std;
 
-void outOfBoundsWarn(bool validPos, string cmd)
+void outOfBoundsWarn(string cmd)
 {
-    if (!validPos)
-        cout << "Comando " << cmd << ": Posicao invalida!\n";
+    cout << "Comando " << cmd << ": Posicao invalida!\n";
 }
 
 void emptyListWarn(string cmd)
@@ -40,12 +39,10 @@ bool isComment(string str)
     return str.begin().base()[0] == '#';
 }
 
-bool findCmd(string inputCmd, const char *cmd)
+bool verifyCmd(string inputCmd, const char *cmd)
 {
     if (inputCmd.compare(cmd) != 0)
-    {
         return false;
-    }
     return true;
 }
 
@@ -58,7 +55,6 @@ int main()
 
     while (getline(cin, line))
     {
-        /* cout << line << endl; */
         // Ignora linhas vazias
         cin >> ws;
 
@@ -68,80 +64,71 @@ int main()
 
         stringstream cmdStream(line);
         cmdStream >> cmd;
-        bool validPos = true;
 
-        if (findCmd(cmd, "insert_0"))
+        if (verifyCmd(cmd, "insert_0"))
         {
             while (cmdStream >> arg)
-            {
                 list.insertBegin(arg);
-            }
         }
-        else if (findCmd(cmd, "insert_end"))
+        else if (verifyCmd(cmd, "insert_end"))
         {
             while (cmdStream >> arg)
-            {
                 list.insertEnd(arg);
-            }
         }
-        else if (findCmd(cmd, "print_0"))
+        else if (verifyCmd(cmd, "print_0"))
         {
             if (list.getLength() == 0)
                 emptyListWarn(cmd);
             else
                 list.printBegin();
         }
-        else if (findCmd(cmd, "print_end"))
+        else if (verifyCmd(cmd, "print_end"))
         {
             if (list.getLength() == 0)
                 emptyListWarn(cmd);
             else
                 list.printEnd();
         }
-        else if (findCmd(cmd, "print"))
+        else if (verifyCmd(cmd, "print"))
         {
             if (list.getLength() == 0)
                 emptyListWarn(cmd);
             else
                 list.printList();
         }
-        else if (findCmd(cmd, "delete_0"))
+        else if (verifyCmd(cmd, "delete_0"))
         {
             if (list.getLength() == 0)
                 emptyListWarn(cmd);
             else
                 list.delBegin();
         }
-        else if (findCmd(cmd, "delete_end"))
+        else if (verifyCmd(cmd, "delete_end"))
         {
             list.delEnd();
         }
-        else if (findCmd(cmd, "dim"))
+        else if (verifyCmd(cmd, "dim"))
         {
             int length = list.getLength();
             cout << "Lista tem " << length << " itens" << endl;
         }
-        else if (findCmd(cmd, "clear"))
+        else if (verifyCmd(cmd, "clear"))
         {
             if (list.getLength() == 0)
                 emptyListWarn(cmd);
             else
                 list.clear();
         }
-        else if (findCmd(cmd, "find"))
+        else if (verifyCmd(cmd, "find"))
         {
             cmdStream >> arg;
             int pos = list.find(arg);
             if (pos >= 0)
-            {
                 cout << "Item " << arg << " na posicao " << pos << endl;
-            }
             else
-            {
                 cout << "Item " << arg << " nao encontrado!" << endl;
-            }
         }
-        else if (findCmd(cmd, "find_max"))
+        else if (verifyCmd(cmd, "find_max"))
         {
             int maxValue;
             if (!list.getMax(&maxValue))
@@ -153,26 +140,24 @@ int main()
             int pos = list.find(maxValue);
             cout << "Max Item " << maxValue << " na posicao " << pos << endl;
         }
-        else if (findCmd(cmd, "delete_pos"))
+        else if (verifyCmd(cmd, "delete_pos"))
         {
             while (cmdStream >> arg)
-            {
-                validPos = list.del(arg);
-            }
+                if (list.del(arg))
+                    outOfBoundsWarn(cmd);
         }
-        else if (findCmd(cmd, "invert_range"))
+        else if (verifyCmd(cmd, "invert_range"))
         {
             int beginPos, endPos;
             cmdStream >> beginPos >> endPos;
 
-            validPos = list.invertRange(beginPos, endPos);
+            if (list.invertRange(beginPos, endPos))
+                outOfBoundsWarn(cmd);
         }
         else
         {
             cout << "Invalid command: " << line << endl;
         }
-
-        outOfBoundsWarn(validPos, cmd);
     }
     return 0;
 }

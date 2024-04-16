@@ -30,8 +30,10 @@ class IDll
     // atributos obrigatórios
     int n; // dimensão atual da lista
     INode *head;
+    INode *tail;
 
     bool outOfBounds(int pos);
+    bool isEmpty();
 
   public:
     IDll();
