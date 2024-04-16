@@ -376,7 +376,8 @@ bool IDll::invertRange(int start, int end)
 
     INode *lastNodeTmp = tmpList->tail;
 
-    // se rangeStart for o primeiro elemento da lista
+    // Une a lista invertida com a lista original
+    // Se rangeStart for o primeiro elemento da lista
     if (rangeStart->prev == NULL)
     {
         this->head       = tmpList->head;
