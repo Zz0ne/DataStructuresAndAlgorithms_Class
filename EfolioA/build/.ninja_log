@@ -1,0 +1,4 @@
+# ninja log v5
+1	269	1715121907558201809	CMakeFiles/Data_Structures.dir/src/idll.cpp.o	7bf89b78f9ca0e62
+1	286	1715121907575201577	CMakeFiles/Data_Structures.dir/src/main.cpp.o	c6785e32f76e21f9
+286	356	1715121907644200635	Data_Structures	c1c5fc5680bb094a
