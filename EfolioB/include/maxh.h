@@ -26,7 +26,8 @@ class IMAXH
         n,  // num. nós usados  (dimensão atual do vetor)
         nv; // dim max do vetor (capacidade)
 
-    void _bottomUp();
+    void _topDown(int index);
+    void _bottomUp(int index);
 
   public:
     // construtores
@@ -38,9 +39,9 @@ class IMAXH
     int getCapacity();
     void setCapacity(int nmax);
 
-    void insert(int val);
+    void insert(int element);
     void heapifyUp(int *arr);
-    void deleteMax();
+    int deleteMax();
     void clear();
 
     friend std::ostream &operator<<(std::ostream &os, IMAXH const &p);
