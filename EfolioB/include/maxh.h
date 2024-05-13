@@ -28,6 +28,7 @@ class IMAXH
 
     void _topDown(int index);
     void _bottomUp(int index);
+    int _largest(int left, int right);
 
   public:
     // construtores
@@ -40,7 +41,7 @@ class IMAXH
     void setCapacity(int nmax);
 
     void insert(int element);
-    void heapifyUp(int *arr);
+    void heapifyUp(int *arr, size_t size);
     int deleteMax();
     void clear();
 

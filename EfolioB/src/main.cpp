@@ -62,19 +62,20 @@ int main()
             }
             else if (verifyCmd(cmd, "print_max"))
             {
-                cout << "Max=" << maxheap.getMax() << endl;
+                int max = maxheap.getMax();
+                cout << "Max= " << max << endl;
             }
             else if (verifyCmd(cmd, "print"))
             {
-                cout << "Heap=\n" << maxheap << endl;
+                cout << maxheap;
             }
             else if (verifyCmd(cmd, "dim"))
             {
-                cout << "Heap tem " << maxheap.getDimension() << "itens" << endl;
+                cout << "Heap tem " << maxheap.getDimension() << " itens" << endl;
             }
             else if (verifyCmd(cmd, "dim_max"))
             {
-                cout << "Heap tem capacidade" << maxheap.getCapacity() << "itens" << endl;
+                cout << "Heap tem capacidade " << maxheap.getCapacity() << " itens" << endl;
             }
             else if (verifyCmd(cmd, "clear"))
             {
@@ -88,9 +89,11 @@ int main()
             {
                 int *arr = new int[maxheap.getDimension()];
 
-                for (int i = 0; cmdStream >> arg; i++)
+                int i;
+                for (i = 0; cmdStream >> arg; i++)
                     arr[i] = arg;
-                maxheap.heapifyUp(arr);
+
+                maxheap.heapifyUp(arr, i);
 
                 delete[] arr;
             }
@@ -107,11 +110,11 @@ int main()
         }
         catch (IMAXH::EmptyHeapError &e)
         {
-            cout << "Comando: " + cmd + " " << e.what() << endl;
+            cout << "Comando " + cmd + ": " << e.what() << endl;
         }
         catch (IMAXH::FullHeapError &e)
         {
-            cout << "Comando: " + cmd + " " << e.what() << endl;
+            cout << "Comando " + cmd + ": " << e.what() << endl;
         }
     }
     return 0;
