@@ -26,9 +26,8 @@ class IMAXH
         n,  // num. nós usados  (dimensão atual do vetor)
         nv; // dim max do vetor (capacidade)
 
-    void _topDown(int index);
-    void _bottomUp(int index);
-    int _largest(int left, int right);
+    void _shiftDown(int index);
+    void _shiftUp(int index);
 
   public:
     // construtores

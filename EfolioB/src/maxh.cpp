@@ -16,9 +16,10 @@
 #include <cmath>
 #include <cstring>
 
-#define LEFT_CHILD(index)  (index * 2 + 1)
-#define RIGHT_CHILD(index) (index * 2 + 2)
-#define PARENT(index)      ((index - 1) / 2)
+#define LEFT_CHILD(index)    (index * 2 + 1)
+#define RIGHT_CHILD(index)   (index * 2 + 2)
+#define PARENT(index)        ((index - 1) / 2)
+#define LAST_NON_LEAF(index) ((index / 2) - 1)
 
 IMAXH::IMAXH(int nmax)
 {
@@ -63,16 +64,17 @@ void IMAXH::insert(int element)
 
     this->v[this->n] = element;
     this->n++;
-    this->_bottomUp(this->n - 1);
+    this->_shiftUp(this->n - 1);
 }
 
 void IMAXH::heapifyUp(int *arr, size_t size)
 {
     std::memcpy(this->v, arr, this->nv * sizeof(int));
-    this->n = size;
+    this->n   = size;
+    int start = LAST_NON_LEAF(this->n);
 
-    for (int i = this->n - 1; i > 0; i--)
-        this->_bottomUp(i);
+    for (int i = start; i >= 0; i--)
+        this->_shiftDown(i);
 }
 
 int IMAXH::deleteMax()
@@ -82,7 +84,7 @@ int IMAXH::deleteMax()
     std::swap(this->v[0], this->v[this->n - 1]);
     this->n--;
 
-    this->_topDown(0);
+    this->_shiftDown(0);
     return max;
 }
 
@@ -118,24 +120,26 @@ std::ostream &operator<<(std::ostream &os, IMAXH const &p)
     return os;
 }
 
-void IMAXH::_topDown(int index)
+void IMAXH::_shiftDown(int index)
 {
-    int left  = LEFT_CHILD(index);
-    int right = RIGHT_CHILD(index);
+    int largest = index;
+    int left    = LEFT_CHILD(index);
+    int right   = RIGHT_CHILD(index);
 
-    while (((left < this->n) && (this->v[index] < this->v[left])) ||
-           ((right < this->n) && (this->v[index] < this->v[right])))
+    if ((left < this->n) && (this->v[largest] < this->v[left]))
+        largest = left;
+
+    if ((right < this->n) && (this->v[largest] < this->v[right]))
+        largest = right;
+
+    if (largest != index)
     {
-        int largest = this->_largest(left, right);
         std::swap(this->v[index], this->v[largest]);
-
-        index = largest;
-        left  = LEFT_CHILD(index);
-        right = RIGHT_CHILD(index);
+        this->_shiftDown(largest);
     }
 }
 
-void IMAXH::_bottomUp(int index)
+void IMAXH::_shiftUp(int index)
 {
     int parent = PARENT(index);
     while (index > 0 && this->v[index] > this->v[parent])
@@ -144,16 +148,6 @@ void IMAXH::_bottomUp(int index)
         index  = parent;
         parent = PARENT(index);
     }
-}
-
-int IMAXH::_largest(int left, int right)
-{
-    if (left >= this->n)
-        return right;
-    else if (right >= this->n)
-        return left;
-    else
-        return this->v[left] > this->v[right] ? left : right;
 }
 
 const char *IMAXH::EmptyHeapError::what() const throw()
