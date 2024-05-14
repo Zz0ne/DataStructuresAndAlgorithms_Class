@@ -36,7 +36,7 @@ bool verifyCmd(string inputCmd, const char *cmd)
 
 int main()
 {
-    IMAXH maxheap; // exemplo
+    IMAXH maxheap;
     string line;
     string cmd;
     int arg;
@@ -119,5 +119,4 @@ int main()
     }
     return 0;
 }
-
 // EOF
