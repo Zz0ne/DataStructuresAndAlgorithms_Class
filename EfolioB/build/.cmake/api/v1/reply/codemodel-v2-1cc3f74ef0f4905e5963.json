@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "EFolioB::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-EFolioB-Debug-d3d500cf08946488350c.json",
+					"jsonFile" : "target-EFolioB-Debug-fb590be579c6eb599ba5.json",
 					"name" : "EFolioB",
 					"projectIndex" : 0
 				}
@@ -49,12 +49,12 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/home/nuno/Desktop/DataStructuresAndAlgorithms_Class/EfolioB/build",
-		"source" : "/home/nuno/Desktop/DataStructuresAndAlgorithms_Class/EfolioB"
+		"build" : "/home/nunos4y/DataStructuresAndAlgorithms_Class/EfolioB/build",
+		"source" : "/home/nunos4y/DataStructuresAndAlgorithms_Class/EfolioB"
 	},
 	"version" : 
 	{
 		"major" : 2,
-		"minor" : 6
+		"minor" : 3
 	}
 }

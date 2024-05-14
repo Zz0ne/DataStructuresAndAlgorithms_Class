@@ -87,7 +87,7 @@ int main()
             }
             else if (verifyCmd(cmd, "heapify_up"))
             {
-                int *arr = new int[maxheap.getDimension()];
+                int *arr = new int[maxheap.getCapacity()];
 
                 int i;
                 for (i = 0; cmdStream >> arg; i++)

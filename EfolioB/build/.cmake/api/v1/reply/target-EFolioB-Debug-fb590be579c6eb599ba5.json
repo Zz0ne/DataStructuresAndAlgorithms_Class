@@ -42,14 +42,17 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : " -Wall -O0 -g -g3 -g -std=gnu++11"
+					"fragment" : " -Wall -O0 -g -g3 -g"
+				},
+				{
+					"fragment" : "-std=gnu++11"
 				}
 			],
 			"includes" : 
 			[
 				{
 					"backtrace" : 2,
-					"path" : "/home/nuno/Desktop/DataStructuresAndAlgorithms_Class/EfolioB/include"
+					"path" : "/home/nunos4y/DataStructuresAndAlgorithms_Class/EfolioB/include"
 				}
 			],
 			"language" : "CXX",

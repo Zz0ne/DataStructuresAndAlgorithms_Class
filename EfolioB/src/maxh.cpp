@@ -53,8 +53,12 @@ int IMAXH::getCapacity()
 
 void IMAXH::setCapacity(int nmax)
 {
-    this->v  = new int[nmax];
+    int *newV = new int[nmax];
+    std::memcpy(newV, this->v, this->n * sizeof(int));
+
+    delete[] this->v;
     this->nv = nmax;
+    this->v  = newV;
 }
 
 void IMAXH::insert(int element)
@@ -69,7 +73,8 @@ void IMAXH::insert(int element)
 
 void IMAXH::heapifyUp(int *arr, size_t size)
 {
-    std::memcpy(this->v, arr, this->nv * sizeof(int));
+    std::memcpy(this->v, arr, size * sizeof(int));
+
     this->n   = size;
     int start = LAST_NON_LEAF(this->n);
 
